@@ -1,0 +1,59 @@
+<apex:page controller="Ksolves" showHeader="false" sidebar="false">
+    <apex:form >
+        <apex:selectList value="{!selectInstValue}" size="1">
+            <apex:selectOptions value="{!instituteListDis}" ></apex:selectOptions>
+            <apex:actionSupport action="{!displayMentors}" event="onchange" reRender="first"/>
+        </apex:selectList>
+        <apex:outputPanel id="first" >
+            <apex:outputPanel rendered="{!displayMentor}">                
+                <br/>
+                <table border="2">
+                    <apex:outputLabel value="All Mentors" />
+                    <tr>
+                        <th>Mentor Name</th>
+                        <th colspan="2">Designation</th>
+                    </tr>                          
+                    <apex:repeat value="{!mentorList}" var="mentor">
+                        <tr>
+                            <td>
+                                <apex:commandLink action="{!showStudentsDetails}" value="{!mentor.Name}">
+                                    <apex:param name="mentorId" assignTo="{!selectId}" value="{!mentor.id}" />
+                                </apex:commandLink>
+                            </td>
+                            <td>
+                                {!Mentor.Designation__c}
+                            </td>
+                        </tr>
+                        
+                        <apex:outputPanel rendered="{!IF(selectId==mentor.id,true,false)}">
+                            <tr>
+                               <table border="2">
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>Class</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Address</th>
+                                        <th>Pin code</th>
+                                        <th>Aadhaar Number</th>	
+                                       </tr>
+                                    <apex:repeat value="{!studentList}" var="student">
+                                        <tr>
+                                            <td>{!student.Name}</td>
+                                            <td>{!student.Class__c}</td>
+                                            <td>{!student.City__c}</td>
+                                            <td>{!student.State__c}</td>
+                                            <td>{!student.Address__c}</td>
+                                            <td>{!student.Pin_code__c}</td>
+                                            <td>{!student.Aadhaar_Number__c}</td>
+                                        </tr>
+                                    </apex:repeat>
+                                 </table>
+                           </tr>
+                        </apex:outputPanel>
+                    </apex:repeat>
+                </table>
+            </apex:outputPanel>
+        </apex:outputPanel>
+     </apex:form>
+</apex:page>
